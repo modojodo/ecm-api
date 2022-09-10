@@ -22,17 +22,31 @@ const url = 'https://graphql.anilist.co',
     })
   };
 
+function flattenMedia (media) {
+  return media.map(({ coverImage: { medium }, title: { romaji }, description }) => {
+    return {
+      media: medium,
+      title: romaji,
+      description
+    }
+  });
+}
+
 
 // Get media objects
 router.get('/media', async (req, res)  => {
   const results = await fetch(url, options);
   const jsonResults = await results.json();
   // healthy check for results
-  const mediaResults = jsonResults
+  let mediaResults = jsonResults
                         && jsonResults.data.Page
                         && jsonResults.data.Page.media
-                        && jsonResults.data.Page.media.length > 0
+                        && jsonResults.data.Page.media.length
                         ? jsonResults.data.Page.media : []
+
+  if (mediaResults.length) {
+    mediaResults = flattenMedia(mediaResults);
+  }
   res.json({ media: mediaResults });
 });
 
