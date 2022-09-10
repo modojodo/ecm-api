@@ -25,7 +25,7 @@ const url = 'https://graphql.anilist.co',
 function flattenMedia (media) {
   return media.map(({ coverImage: { medium }, title: { romaji }, description }) => {
     return {
-      media: medium,
+      image: medium,
       title: romaji,
       description
     }
