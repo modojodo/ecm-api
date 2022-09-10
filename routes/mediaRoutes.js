@@ -1,6 +1,7 @@
 const query =  require('../gql/queries/Media');
 
 const express = require('express');
+const { json } = require("express");
 const router = express.Router();
 
 const variables = {
@@ -26,7 +27,13 @@ const url = 'https://graphql.anilist.co',
 router.get('/media', async (req, res)  => {
   const results = await fetch(url, options);
   const jsonResults = await results.json();
-  res.json(jsonResults);
+  // healthy check for results
+  const mediaResults = jsonResults
+                        && jsonResults.data.Page
+                        && jsonResults.data.Page.media
+                        && jsonResults.data.Page.media.length > 0
+                        ? jsonResults.data.Page.media : []
+  res.json({ media: mediaResults });
 });
 
 module.exports = router;
