@@ -1,11 +1,12 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+const indexRouter = require('./routes/index');
+const mediaRouter = require('./routes/mediaRoutes');
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -14,5 +15,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.get('/media', mediaRouter);
 
 module.exports = app;
