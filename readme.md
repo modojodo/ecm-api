@@ -26,7 +26,13 @@ Following are the endpoints that this project exposes
 
 Retrieves a list of 10 media objects
 
+# Swagger Documentation
+
+To run the swagger docs, simply navigate to
+
+`/docs`
 
 
+You can also use the playground to execute the API request and see the actual response while the server is running.g
 
 
