@@ -1,7 +1,7 @@
 const query =  require('../gql/queries/Media');
 
 const express = require('express');
-const { json } = require("express");
+const axios = require('axios');
 const router = express.Router();
 
 const variables = {
@@ -9,18 +9,18 @@ const variables = {
   perPage: 10
 };
 
-const url = 'https://graphql.anilist.co',
-  options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    },
-    body: JSON.stringify({
-      query,
-      variables
-    })
-  };
+const options = {
+  url: 'https://graphql.anilist.co',
+  method: 'post',
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  },
+  data: {
+    query,
+    variables
+  }
+};
 
 function flattenMedia (media) {
   return media.map(({ coverImage: { medium }, title: { romaji }, description }) => {
@@ -35,8 +35,8 @@ function flattenMedia (media) {
 
 // Get media objects
 router.get('/media', async (req, res)  => {
-  const results = await fetch(url, options);
-  const jsonResults = await results.json();
+  const results = await axios(options);
+  const jsonResults = results.data
   // healthy check for results
   let mediaResults = jsonResults
                         && jsonResults.data.Page
