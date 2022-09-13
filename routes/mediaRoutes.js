@@ -33,7 +33,32 @@ function flattenMedia (media) {
 }
 
 
-// Get media objects
+/**
+ * @openapi
+ * '/media':
+ *  get:
+ *     tags:
+ *     - Media
+ *     summary: Get all media items
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                type: object
+ *                properties:
+ *                  image:
+ *                    type: string
+ *                  title:
+ *                    type: string
+ *                  description:
+ *                    type: string
+ *       400:
+ *         description: Bad request
+ */
 router.get('/media', async (req, res)  => {
   const results = await axios(options);
   const jsonResults = results.data
